@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .forms import ItemForm
 from .forms import ItemForm
 from .models import Item
+from django.core.paginator import Paginator
 from django.template import loader
 from django .views.generic.list import ListView
 from django .views.generic.detail import DetailView
@@ -11,12 +12,16 @@ from django .views.generic.edit import CreateView
 # Create your views here.
 
 def index(request):
-    itemlist=Item.objects.all()
+    item_list1=Item.objects.all()
     #template=loader.get_template('food/index.html')
-    context={'itemlist':itemlist,
-        }
+    
+    paginator=Paginator(item_list1,4)
+    page=request.GET.get('page')
+    itemlist=paginator.get_page(page)
+    
+
     #return HttpResponse(template.render(context,request))
-    return render(request,'food/index.html',context)
+    return render(request,'food/index.html',{'itemlist':itemlist})
 class IndexClassView(ListView):
     model=Item
     template_name='food/index.html'
