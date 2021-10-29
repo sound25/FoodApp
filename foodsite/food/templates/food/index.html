@@ -9,6 +9,13 @@
    </head>
 <body>
    {% block body %}
+<div class='container'>
+   <form action="#" method='GET'>
+      <div class="input-group mb-3">
+         <input name="search_food" id="search_food" type="search" class="form-control" placeholder="Search for any food item" aria-label="Search Keyword" aria-describedby="button-addon2">
+         <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+       </div>
+   </form>
 
      {% for item in itemlist %}
      <div class="row">
@@ -29,16 +36,30 @@
 </br>
 {% endfor %}
 
+<nav aria-label="Page navigation example">
+   <ul class="pagination justify-content-end">
 {% if itemlist.has_previous %}
-<a href="?page=1">First</a>
-<a href="?page= {{ itemlist.previous_page_number }}">Previous</a>
-{% endif %}
-Page: {{ itemlist.number }} of {{ itemlist.paginator.num_pages }}
-{% if itemlist.has_next %}
-<a href="?page={{ itemlist.next_page_number }}">Next</a>
-<a href="?page={{ itemlist.paginator.num_pages }}">Last</a>
-{% endif %}
+     <li class="page-item">
+       <a class="page-link" href="?page=1">First</a>
+     </li>
+     <li class="page-item">
+      <a class="page-link" href="?page= {{ itemlist.previous_page_number }}">Previous</a>
+    </li>
+ {% endif %}
+     <li class="page-item"><a class="page-link" href="#">
+Page: {{ itemlist.number }} of {{ itemlist.paginator.num_pages }}</a></li>
 
+     {% if itemlist.has_next %}
+     <li class="page-item">
+       <a class="page-link" href="?page={{ itemlist.next_page_number }}">Next</a>
+     </li>
+     <li class="page-item">
+      <a class="page-link" href="?page={{ itemlist.paginator.num_pages }}">Last</a>
+    </li>
+     {% endif %}
+   </ul>
+ </nav>
+</div>
 {% endblock %}
 </body>
 </html>

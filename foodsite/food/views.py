@@ -14,7 +14,9 @@ from django .views.generic.edit import CreateView
 def index(request):
     item_list1=Item.objects.all()
     #template=loader.get_template('food/index.html')
-    
+    search_food=request.GET.get('search_food')
+    if search_food !='' and search_food is not None:
+        item_list1=Item.objects.filter(item_name__icontains=search_food)
     paginator=Paginator(item_list1,4)
     page=request.GET.get('page')
     itemlist=paginator.get_page(page)
